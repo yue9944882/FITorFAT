@@ -1,7 +1,6 @@
 package com.kimmin.ms.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -12,10 +11,34 @@ import java.util.Date;
 @Table
 public class Menu {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private Date date;
-    private String dishId;
     private int like;
-    private int dislike;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Menu menu = (Menu) o;
+
+        if (id != menu.id) return false;
+        if (like != menu.like) return false;
+        if (dislike != menu.dislike) return false;
+        return date != null ? date.equals(menu.date) : menu.date == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + like;
+        result = 31 * result + dislike;
+        return result;
+    }
+
+    private int dislike;
 }
