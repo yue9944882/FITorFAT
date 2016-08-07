@@ -1,12 +1,14 @@
 package com.kimmin.ms.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by t-mijin on 8/1/2016.
  */
+
+
+@Table
+@Entity
 public class MD {
 
     @Id

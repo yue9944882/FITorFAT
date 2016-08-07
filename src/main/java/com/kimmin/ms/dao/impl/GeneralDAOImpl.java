@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by fowafolo on 15/5/18.
- */
+
 public abstract class GeneralDAOImpl<T> implements GeneralDAO<T> {
     private Class<T> entityClass;
 
@@ -40,6 +38,12 @@ public abstract class GeneralDAOImpl<T> implements GeneralDAO<T> {
     public T queryById(String id){
         return (T) sessionFactory.getCurrentSession().get(entityClass,id);
     }
+
+    @SuppressWarnings("unchecked")
+    public T queryById(int id) {
+        return (T) sessionFactory.getCurrentSession().get(entityClass, id);
+    }
+
     public List<T> queryAll(){
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(entityClass);
         return criteria.list();
