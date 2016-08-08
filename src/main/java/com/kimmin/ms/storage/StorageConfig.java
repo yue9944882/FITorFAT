@@ -9,7 +9,7 @@ public class StorageConfig {
 
     public final static String AZURE_STORAGE_NAME = "fitstorage";
 
-    public final static String AZURE_STORAGE_ENDPOINT = "https://fitstorage.blob.core.chinaclouapp.cn";
+    public final static String AZURE_STORAGE_ENDPOINT = "https://fitstorage.blob.core.chinaclouapi.cn";
 
     public static final String storageConnectionString =
             "DefaultEndpointsProtocol=https;" +
