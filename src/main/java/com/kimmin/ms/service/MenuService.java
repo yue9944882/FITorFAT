@@ -2,8 +2,10 @@ package com.kimmin.ms.service;
 
 import com.kimmin.ms.dao.DishDAO;
 import com.kimmin.ms.dao.MenuDAO;
+import com.kimmin.ms.dao.UserDAO;
 import com.kimmin.ms.entity.Dish;
 import com.kimmin.ms.entity.Menu;
+import com.kimmin.ms.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,9 @@ public class MenuService {
     @Autowired
     private DishDAO dishDAO;
 
+    @Autowired
+    private UserDAO userDAO;
+
     public void addMenu(String uid, List<Integer> dids){
         Menu menu = new Menu();
         for(int did : dids){
@@ -42,6 +47,12 @@ public class MenuService {
     public Set<Dish> getDishOfMenu(int mid){
         Menu menu = menuDAO.queryById(mid);
         return menu.getDishes();
+    }
+
+    public Set<Menu> getMenuByUser(String uid){
+        User user = userDAO.queryById(uid);
+        Set<Menu> menus = user.getMenus();
+        return menus;
     }
 
 }
