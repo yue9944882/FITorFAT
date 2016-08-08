@@ -1,5 +1,7 @@
 package com.kimmin.ms.entity;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import javax.persistence.*;
 
 /**
@@ -11,6 +13,14 @@ import javax.persistence.*;
 @Entity
 public class Message {
 
+    private int id;
+    private String message;
+    private User user;
+    private Menu menu;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
     public int getId() {
         return id;
     }
@@ -19,28 +29,34 @@ public class Message {
         this.id = id;
     }
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getMid() {
-        return mid;
-    }
-
-    public void setMid(String mid) {
-        this.mid = mid;
-    }
-
+    @Basic
+    @Column(nullable = false)
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "uid", nullable = false)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "mid", nullable = false)
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
     @Override
@@ -51,28 +67,19 @@ public class Message {
         Message message1 = (Message) o;
 
         if (id != message1.id) return false;
-        if (uid != null ? !uid.equals(message1.uid) : message1.uid != null) return false;
-        if (mid != null ? !mid.equals(message1.mid) : message1.mid != null) return false;
-        return message != null ? message.equals(message1.message) : message1.message == null;
+        if (message != null ? !message.equals(message1.message) : message1.message != null) return false;
+        if (user != null ? !user.equals(message1.user) : message1.user != null) return false;
+        return menu != null ? menu.equals(message1.menu) : message1.menu == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (uid != null ? uid.hashCode() : 0);
-        result = 31 * result + (mid != null ? mid.hashCode() : 0);
         result = 31 * result + (message != null ? message.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (menu != null ? menu.hashCode() : 0);
         return result;
     }
-
-    @Id
-
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String uid;
-
-    private String mid;
-    private String message;
 
 }

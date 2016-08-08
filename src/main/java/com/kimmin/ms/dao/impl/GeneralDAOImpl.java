@@ -56,4 +56,11 @@ public abstract class GeneralDAOImpl<T> implements GeneralDAO<T> {
         tx.commit();
     }
 
+    public void deleteById(int id){
+        Session session = sessionFactory.getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        T t = (T) session.get(entityClass, id);
+        session.delete(t);
+        tx.commit();
+    }
 }

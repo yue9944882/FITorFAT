@@ -10,4 +10,5 @@ public interface GeneralDAO<T> {
     void delete(T t);
     void update(T t);
     void deleteById(String id);
+    void deleteById(int id);
 }

@@ -7,8 +7,7 @@ import javax.persistence.*;
  */
 
 
-@Table
-@Entity
+@Deprecated
 public class MD {
 
     @Id

@@ -6,8 +6,7 @@ import javax.persistence.*;
  * Created by t-mijin on 8/1/2016.
  */
 
-@Entity
-@Table
+@Deprecated
 public class MU {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

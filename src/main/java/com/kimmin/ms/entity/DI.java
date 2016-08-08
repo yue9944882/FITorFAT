@@ -8,8 +8,7 @@ import javax.persistence.*;
  * Created by t-mijin on 8/1/2016.
  */
 
-@Table
-@Entity
+@Deprecated
 public class DI {
 
     @Id
