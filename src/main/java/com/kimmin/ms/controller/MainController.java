@@ -9,6 +9,7 @@ import com.kimmin.ms.service.DishService;
 import com.kimmin.ms.service.FollowService;
 import com.kimmin.ms.service.MenuService;
 import com.kimmin.ms.service.MessageService;
+import com.kimmin.ms.storage.StorageManager;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -126,6 +128,9 @@ public class MainController {
     public String uploadImage(@PathVariable("id") String id,
                               @RequestParam("file") MultipartFile file){
         try{
+            byte[] bytes = file.getBytes();
+            long length = bytes.length;
+            StorageManager.getInstance().saveImageToCloud(new ByteArrayInputStream(bytes), length, id);
             return Utils.RESP_SUCCESS;
         }catch (Throwable e){
             e.printStackTrace();
