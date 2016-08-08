@@ -1,6 +1,7 @@
 package com.kimmin.ms.service;
 
 import com.kimmin.ms.dao.DishDAO;
+import com.kimmin.ms.dao.IngredientDAO;
 import com.kimmin.ms.entity.Dish;
 import com.kimmin.ms.entity.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class DishService {
     @Autowired
     private DishDAO dishDAO;
 
+    @Autowired
+    private IngredientDAO ingredientDAO;
+
     public void addDish(Dish dish){
         dishDAO.insert(dish);
     }
@@ -32,6 +36,14 @@ public class DishService {
     public Set<Ingredient> getIngredientByDish(int did){
         Dish dish = dishDAO.queryById(did);
         return dish.getIngredients();
+    }
+
+    public void addIngredient(Ingredient ingredient){
+        ingredientDAO.insert(ingredient);
+    }
+
+    public void delIngredient(int iid){
+        ingredientDAO.deleteById(iid);
     }
 
 }

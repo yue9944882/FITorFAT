@@ -42,6 +42,9 @@ public class MainController {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private Ingred
+
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -139,6 +142,18 @@ public class MainController {
 
     }
 
+    @RequestMapping(value = "/ingredient/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public String addIngredient(@PathVariable("id") String id,
+                                @RequestBody Map<String, Object> map){
+        Ingredient ingredient = new Ingredient();
+        String name = (String) map.get("name");
+        Integer caloric = (Integer) map.get("caloric");
+        ingredient.setName(name);
+        ingredient.setCaloric(caloric);
+        dishService.addIngredient(ingredient);
+        return Utils.RESP_SUCCESS;
+    }
 
 
 }

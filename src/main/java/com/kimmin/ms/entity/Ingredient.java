@@ -14,7 +14,7 @@ public class Ingredient {
 
     private int id;
     private String name;
-    private String caloric;
+    private int caloric;
     private Set<Dish> dishes;
 
     @Id
@@ -39,11 +39,11 @@ public class Ingredient {
 
     @Basic
     @Column(nullable = false)
-    public String getCaloric() {
+    public int getCaloric() {
         return caloric;
     }
 
-    public void setCaloric(String caloric) {
+    public void setCaloric(int caloric) {
         this.caloric = caloric;
     }
 
@@ -72,8 +72,8 @@ public class Ingredient {
         Ingredient that = (Ingredient) o;
 
         if (id != that.id) return false;
+        if (caloric != that.caloric) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (caloric != null ? !caloric.equals(that.caloric) : that.caloric != null) return false;
         return dishes != null ? dishes.equals(that.dishes) : that.dishes == null;
 
     }
@@ -82,7 +82,7 @@ public class Ingredient {
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (caloric != null ? caloric.hashCode() : 0);
+        result = 31 * result + caloric;
         result = 31 * result + (dishes != null ? dishes.hashCode() : 0);
         return result;
     }
