@@ -42,8 +42,6 @@ public class MainController {
     @Autowired
     private MenuService menuService;
 
-    @Autowired
-    private Ingred
 
 
     private ObjectMapper objectMapper = new ObjectMapper();
