@@ -18,6 +18,7 @@ public class Menu {
     private int dislike;
     private Set<Dish> dishes;
     private Set<Message> messages;
+    private Set<User> users;
 
 
     @Id
@@ -97,6 +98,24 @@ public class Menu {
         this.messages.remove(message);
     }
 
+
+    @ManyToMany(mappedBy = "menus")
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public void addUser(User user){
+        this.users.add(user);
+    }
+
+    public void delUser(User user){
+        this.users.remove(user);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,7 +128,8 @@ public class Menu {
         if (dislike != menu.dislike) return false;
         if (date != null ? !date.equals(menu.date) : menu.date != null) return false;
         if (dishes != null ? !dishes.equals(menu.dishes) : menu.dishes != null) return false;
-        return messages != null ? messages.equals(menu.messages) : menu.messages == null;
+        if (messages != null ? !messages.equals(menu.messages) : menu.messages != null) return false;
+        return users != null ? users.equals(menu.users) : menu.users == null;
 
     }
 
@@ -121,6 +141,7 @@ public class Menu {
         result = 31 * result + dislike;
         result = 31 * result + (dishes != null ? dishes.hashCode() : 0);
         result = 31 * result + (messages != null ? messages.hashCode() : 0);
+        result = 31 * result + (users != null ? users.hashCode() : 0);
         return result;
     }
 }

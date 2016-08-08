@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by t-mijin on 8/7/2016.
@@ -36,6 +37,11 @@ public class MenuService {
 
     public void delMenu(int mid){
         menuDAO.deleteById(mid);
+    }
+
+    public Set<Dish> getDishOfMenu(int mid){
+        Menu menu = menuDAO.queryById(mid);
+        return menu.getDishes();
     }
 
 }

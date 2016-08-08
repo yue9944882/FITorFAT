@@ -22,6 +22,10 @@ public class User implements Serializable {
     private String gender;
     private Date registerDate;
     private int upper;
+    private Set<Message> messages;
+    private Set<Menu> menus;
+
+
 
     @Id
     @Column(nullable = false)
@@ -93,8 +97,27 @@ public class User implements Serializable {
         this.messages = messages;
     }
 
-    private Set<Message> messages;
 
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "MU",
+            joinColumns = {@JoinColumn(name = "mid", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "uid", referencedColumnName = "id")}
+    )
+    public Set<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(Set<Menu> menus) {
+        this.menus = menus;
+    }
+
+    public void addMenu(Menu menu){
+        this.menus.add(menu);
+    }
+
+    public void delMenu(Menu menu){
+        this.menus.remove(menu);
+    }
 
 
     @Override

@@ -7,10 +7,17 @@ import com.kimmin.ms.entity.Menu;
 import com.kimmin.ms.entity.Message;
 import com.kimmin.ms.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by t-mijin on 8/7/2016.
  */
+@Service
+@Transactional
 public class MessageService {
 
     @Autowired
@@ -34,6 +41,15 @@ public class MessageService {
 
     public void delCommentMessage(int messageId){
         messageDAO.deleteById(messageId);
+    }
+
+    public List<Message> getMessageByUser(String uid){
+        return messageDAO.getMessageByUser(uid);
+    }
+
+    public Set<Message> getMessageByMenu(int mid){
+        Menu menu = menuDAO.queryById(mid);
+        return menu == null ? null : menu.getMessages();
     }
 
 }
