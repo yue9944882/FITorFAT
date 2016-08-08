@@ -1,6 +1,5 @@
 package com.kimmin.ms.entity;
 
-import com.sun.javafx.beans.IDProperty;
 
 import javax.persistence.*;
 import java.util.Set;
