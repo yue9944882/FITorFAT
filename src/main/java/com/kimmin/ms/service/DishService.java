@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,7 +27,24 @@ public class DishService {
     @Autowired
     private IngredientDAO ingredientDAO;
 
-    public void addDish(Dish dish){
+    public void addDish(String name, int location, int weight, int energy, int type, List<Integer> iids){
+        Dish dish = new Dish();
+        dish.setDolike(0);
+        dish.setDislike(0);
+        dish.setEnergy(energy);
+        dish.setName(name);
+        dish.setCreateTime(new Date());
+        dish.setLocation(location);
+        dish.setWeight(weight);
+        dish.setType(type);
+        for(Integer iid : iids){
+            Ingredient i = ingredientDAO.queryById(iid);
+            if(i == null){
+                return;
+            }else{
+                dish.addIngredient(i);
+            }
+        }
         dishDAO.insert(dish);
     }
 
@@ -45,5 +64,11 @@ public class DishService {
     public void delIngredient(int iid){
         ingredientDAO.deleteById(iid);
     }
+
+    public Ingredient getIngredientById(int iid){
+        return ingredientDAO.queryById(iid);
+    }
+
+
 
 }

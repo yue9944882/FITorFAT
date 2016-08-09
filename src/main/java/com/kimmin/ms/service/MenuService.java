@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +34,11 @@ public class MenuService {
 
     public void addMenu(String uid, List<Integer> dids){
         Menu menu = new Menu();
+        menu.setDislike(0);
+        menu.setDolike(0);
+        menu.setDate(new Date());
+        User user = userDAO.queryById(uid);
+        menu.setUser(user);
         for(int did : dids){
             Dish dish = dishDAO.queryById(did);
             menu.addDish(dish);

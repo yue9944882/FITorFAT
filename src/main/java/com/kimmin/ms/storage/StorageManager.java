@@ -36,6 +36,7 @@ public class StorageManager {
             CloudBlobContainer container = client.getContainerReference("dish");
             container.createIfNotExists();
             CloudBlockBlob blob = container.getBlockBlobReference(id);
+            blob.getProperties().setContentType("image/jpg");
             blob.upload(stream, length);
         }catch (Throwable e){
             e.printStackTrace();

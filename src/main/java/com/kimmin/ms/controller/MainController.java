@@ -1,14 +1,8 @@
 package com.kimmin.ms.controller;
 
-import com.kimmin.ms.entity.Dish;
-import com.kimmin.ms.entity.Ingredient;
-import com.kimmin.ms.entity.Menu;
-import com.kimmin.ms.entity.Message;
+import com.kimmin.ms.entity.*;
 import com.kimmin.ms.misc.Utils;
-import com.kimmin.ms.service.DishService;
-import com.kimmin.ms.service.FollowService;
-import com.kimmin.ms.service.MenuService;
-import com.kimmin.ms.service.MessageService;
+import com.kimmin.ms.service.*;
 import com.kimmin.ms.storage.StorageManager;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,11 +37,14 @@ public class MainController {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private AuthService authService;
+
 
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    @RequestMapping(value = "/message", method = RequestMethod.POST)
+    @RequestMapping(value = "/add/message", method = RequestMethod.POST)
     @ResponseBody
     public String addMessage(@RequestBody Map<String, Object> map){
         String message = (String) map.get("message");
@@ -140,10 +138,9 @@ public class MainController {
 
     }
 
-    @RequestMapping(value = "/ingredient/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/add/ingredient", method = RequestMethod.POST)
     @ResponseBody
-    public String addIngredient(@PathVariable("id") String id,
-                                @RequestBody Map<String, Object> map){
+    public String addIngredient(@RequestBody Map<String, Object> map){
         Ingredient ingredient = new Ingredient();
         String name = (String) map.get("name");
         Integer caloric = (Integer) map.get("caloric");
@@ -153,5 +150,26 @@ public class MainController {
         return Utils.RESP_SUCCESS;
     }
 
+    @RequestMapping(value = "/add/dish", method = RequestMethod.POST)
+    @ResponseBody
+    public String addDish(@RequestBody Map<String, Object> map){
+        String name = (String) map.get("name");
+        int weight = (Integer) map.get("weight");
+        int location = (Integer) map.get("location");
+        int energy = (Integer) map.get("energy");
+        int type = (Integer) map.get("type");
+        List<Integer> iids = (List<Integer>) map.get("iids");
+        dishService.addDish(name, location, weight, energy, type, iids);
+        return Utils.RESP_SUCCESS;
+    }
+
+    @RequestMapping(value = "/add/menu", method = RequestMethod.POST)
+    @ResponseBody
+    public String addMenu(@RequestBody Map<String, Object> map){
+        String uid = (String) map.get("uid");
+        List<Integer> dids = (List<Integer>) map.get("dids");
+        menuService.addMenu(uid, dids);
+        return Utils.RESP_SUCCESS;
+    }
 
 }

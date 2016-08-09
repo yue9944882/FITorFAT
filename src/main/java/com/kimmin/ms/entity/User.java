@@ -1,9 +1,12 @@
 package com.kimmin.ms.entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -22,8 +25,10 @@ public class User implements Serializable {
     private String gender;
     private Date registerDate;
     private int upper;
-    private Set<Message> messages;
-    private Set<Menu> menus;
+    @JsonIgnore
+    private Set<Message> messages = new HashSet<Message>();
+    @JsonIgnore
+    private Set<Menu> menus = new HashSet<Menu>();
 
 
 
@@ -88,7 +93,7 @@ public class User implements Serializable {
     }
 
     @Basic
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
     public Set<Message> getMessages() {
         return messages;
     }
@@ -98,11 +103,8 @@ public class User implements Serializable {
     }
 
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "MU",
-            joinColumns = {@JoinColumn(name = "mid", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "uid", referencedColumnName = "id")}
-    )
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
+    @Basic
     public Set<Menu> getMenus() {
         return menus;
     }
@@ -118,7 +120,6 @@ public class User implements Serializable {
     public void delMenu(Menu menu){
         this.menus.remove(menu);
     }
-
 
     @Override
     public boolean equals(Object o) {

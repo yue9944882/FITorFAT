@@ -1,7 +1,11 @@
 package com.kimmin.ms.entity;
 
 
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,7 +19,8 @@ public class Ingredient {
     private int id;
     private String name;
     private int caloric;
-    private Set<Dish> dishes;
+    @JsonIgnore
+    private Set<Dish> dishes = new HashSet<Dish>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,7 +52,7 @@ public class Ingredient {
         this.caloric = caloric;
     }
 
-    @ManyToMany(mappedBy = "ingredients")
+    @ManyToMany(mappedBy = "ingredients", fetch = FetchType.EAGER)
     public Set<Dish> getDishes() {
         return dishes;
     }
@@ -73,8 +78,7 @@ public class Ingredient {
 
         if (id != that.id) return false;
         if (caloric != that.caloric) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return dishes != null ? dishes.equals(that.dishes) : that.dishes == null;
+        return name != null ? name.equals(that.name) : that.name == null;
 
     }
 
@@ -83,7 +87,6 @@ public class Ingredient {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + caloric;
-        result = 31 * result + (dishes != null ? dishes.hashCode() : 0);
         return result;
     }
 }

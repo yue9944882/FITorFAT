@@ -1,7 +1,10 @@
 package com.kimmin.ms.entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -16,9 +19,10 @@ public class Menu {
     private Date date;
     private int dolike;
     private int dislike;
-    private Set<Dish> dishes;
-    private Set<Message> messages;
-    private Set<User> users;
+    private Set<Dish> dishes = new HashSet<Dish>();
+    @JsonIgnore
+    private Set<Message> messages = new HashSet<Message>();
+    private User user;
 
 
     @Id
@@ -62,7 +66,11 @@ public class Menu {
         this.dislike = dislike;
     }
 
-    @ManyToMany(mappedBy = "menus")
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinTable(name = "MD",
+            joinColumns = {@JoinColumn(name = "did", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "mid", referencedColumnName = "id")}
+    )
     public Set<Dish> getDishes() {
         return dishes;
     }
@@ -81,7 +89,7 @@ public class Menu {
 
     @Basic
     @Column
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "menu")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "menu", fetch = FetchType.EAGER)
     public Set<Message> getMessages() {
         return messages;
     }
@@ -98,22 +106,14 @@ public class Menu {
         this.messages.remove(message);
     }
 
-
-    @ManyToMany(mappedBy = "menus")
-    public Set<User> getUsers() {
-        return users;
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "uid", nullable = false)
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public void addUser(User user){
-        this.users.add(user);
-    }
-
-    public void delUser(User user){
-        this.users.remove(user);
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -127,9 +127,7 @@ public class Menu {
         if (dolike != menu.dolike) return false;
         if (dislike != menu.dislike) return false;
         if (date != null ? !date.equals(menu.date) : menu.date != null) return false;
-        if (dishes != null ? !dishes.equals(menu.dishes) : menu.dishes != null) return false;
-        if (messages != null ? !messages.equals(menu.messages) : menu.messages != null) return false;
-        return users != null ? users.equals(menu.users) : menu.users == null;
+        return user != null ? user.equals(menu.user) : menu.user == null;
 
     }
 
@@ -139,9 +137,7 @@ public class Menu {
         result = 31 * result + (date != null ? date.hashCode() : 0);
         result = 31 * result + dolike;
         result = 31 * result + dislike;
-        result = 31 * result + (dishes != null ? dishes.hashCode() : 0);
-        result = 31 * result + (messages != null ? messages.hashCode() : 0);
-        result = 31 * result + (users != null ? users.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 }

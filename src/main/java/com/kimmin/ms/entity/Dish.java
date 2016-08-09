@@ -1,9 +1,11 @@
 package com.kimmin.ms.entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -23,8 +25,9 @@ public class Dish {
     private int location;
     private int energy;
     private int type;
-    private Set<Menu> menus;
-    private Set<Ingredient> ingredients;
+    @JsonIgnore
+    private Set<Menu> menus = new HashSet<Menu>();
+    private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -116,11 +119,7 @@ public class Dish {
         this.type = type;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name = "MD",
-            joinColumns = {@JoinColumn(name = "did", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "mid", referencedColumnName = "id")}
-    )
+    @ManyToMany(mappedBy = "dishes", fetch = FetchType.EAGER)
     public Set<Menu> getMenus() {
         return menus;
     }
@@ -129,7 +128,7 @@ public class Dish {
         this.menus = menus;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "DI",
             joinColumns = {@JoinColumn(name = "did", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "iid", referencedColumnName = "id")}
@@ -165,9 +164,7 @@ public class Dish {
         if (energy != dish.energy) return false;
         if (type != dish.type) return false;
         if (name != null ? !name.equals(dish.name) : dish.name != null) return false;
-        if (createTime != null ? !createTime.equals(dish.createTime) : dish.createTime != null) return false;
-        if (menus != null ? !menus.equals(dish.menus) : dish.menus != null) return false;
-        return ingredients != null ? ingredients.equals(dish.ingredients) : dish.ingredients == null;
+        return createTime != null ? createTime.equals(dish.createTime) : dish.createTime == null;
 
     }
 
@@ -182,8 +179,6 @@ public class Dish {
         result = 31 * result + location;
         result = 31 * result + energy;
         result = 31 * result + type;
-        result = 31 * result + (menus != null ? menus.hashCode() : 0);
-        result = 31 * result + (ingredients != null ? ingredients.hashCode() : 0);
         return result;
     }
 }
