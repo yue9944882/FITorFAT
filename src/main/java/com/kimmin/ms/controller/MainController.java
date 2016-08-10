@@ -138,7 +138,7 @@ public class MainController {
     public String addIngredient(@RequestBody Map<String, Object> map){
         Ingredient ingredient = new Ingredient();
         String name = (String) map.get("name");
-        Integer caloric = (Integer) map.get("caloric");
+        Double caloric = (Double) map.get("caloric");
         ingredient.setName(name);
         ingredient.setCaloric(caloric);
         dishService.addIngredient(ingredient);

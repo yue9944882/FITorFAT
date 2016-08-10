@@ -18,7 +18,7 @@ public class Ingredient {
 
     private int id;
     private String name;
-    private int caloric;
+    private double caloric;
     @JsonIgnore
     private Set<Dish> dishes = new HashSet<Dish>();
 
@@ -44,11 +44,11 @@ public class Ingredient {
 
     @Basic
     @Column(nullable = false)
-    public int getCaloric() {
+    public double getCaloric() {
         return caloric;
     }
 
-    public void setCaloric(int caloric) {
+    public void setCaloric(double caloric) {
         this.caloric = caloric;
     }
 
@@ -77,16 +77,19 @@ public class Ingredient {
         Ingredient that = (Ingredient) o;
 
         if (id != that.id) return false;
-        if (caloric != that.caloric) return false;
-        return name != null ? name.equals(that.name) : that.name == null;
-
+        if (Double.compare(that.caloric, caloric) != 0) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result;
+        long temp;
+        result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + caloric;
+        temp = Double.doubleToLongBits(caloric);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 }
