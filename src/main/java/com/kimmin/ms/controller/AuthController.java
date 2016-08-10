@@ -5,10 +5,7 @@ import com.kimmin.ms.service.AuthService;
 import javassist.compiler.ast.StringL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +25,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public String userLoginRoute(@RequestBody Map<String, Object> map,
@@ -41,6 +39,7 @@ public class AuthController {
     }
 
 
+    @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public String userRegisterRoute(@RequestBody Map<String, Object> map,
@@ -55,6 +54,7 @@ public class AuthController {
         else return Utils.RESP_FAILURE;
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     @ResponseBody
     public String userModifyRoute(@RequestBody Map<String, Object> map,

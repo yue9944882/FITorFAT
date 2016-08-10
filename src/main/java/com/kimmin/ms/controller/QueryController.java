@@ -8,10 +8,7 @@ import com.kimmin.ms.service.QueryService;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,8 +32,9 @@ public class QueryController {
     private ObjectMapper objectMapper = new ObjectMapper();
 
 
+    @CrossOrigin
     @ResponseBody
-    @RequestMapping(value = "/user/{id}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET )
     public String queryUserInfo(@PathVariable("id") String id){
         User user = authService.getUserById(id);
         user.setPassword("***********".getBytes());
@@ -48,8 +46,9 @@ public class QueryController {
         }
     }
 
+    @CrossOrigin
     @ResponseBody
-    @RequestMapping(value = "/dish/{id}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/dish/{id}", method = RequestMethod.GET )
     public String queryDishInfo(@PathVariable("id") String id){
         try{
             int did = Integer.parseInt(id);
@@ -62,7 +61,8 @@ public class QueryController {
     }
 
 
-    @RequestMapping(value = "/dishes/low", method = {RequestMethod.GET})
+    @CrossOrigin
+    @RequestMapping(value = "/dishes/low", method = RequestMethod.GET )
     @ResponseBody
     public String queryLowDishes(){
         try{
@@ -73,7 +73,8 @@ public class QueryController {
         }
     }
 
-    @RequestMapping(value = "/dishes/medium", method = {RequestMethod.GET})
+    @CrossOrigin
+    @RequestMapping(value = "/dishes/medium", method = RequestMethod.GET)
     @ResponseBody
     public String queryMediumDishes(){
         try{
@@ -84,7 +85,8 @@ public class QueryController {
         }
     }
 
-    @RequestMapping(value = "/dishes/high", method = {RequestMethod.GET})
+    @CrossOrigin
+    @RequestMapping(value = "/dishes/high", method = RequestMethod.GET )
     @ResponseBody
     public String queryHighDishes(){
         try{
@@ -95,7 +97,9 @@ public class QueryController {
         }
     }
 
-    @RequestMapping(value = "/dishes/latest", method = {RequestMethod.GET})
+
+    @CrossOrigin
+    @RequestMapping(value = "/dishes/latest", method = RequestMethod.GET )
     @ResponseBody
     public String queryLatestDishes(){
         try{

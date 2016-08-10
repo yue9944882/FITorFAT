@@ -44,20 +44,10 @@ public class MainController {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    @RequestMapping(value = "/add/message", method = RequestMethod.POST)
-    @ResponseBody
-    public String addMessage(@RequestBody Map<String, Object> map){
-        String message = (String) map.get("message");
-        String user = (String) map.get("user");
-        Integer menu = (Integer) map.get("menu");
-        if(message != null && user != null && menu != null) {
-            messageService.addCommentMessage(user, menu, message);
-            return Utils.RESP_SUCCESS;
-        } else {
-            return Utils.RESP_FAILURE;
-        }
-    }
 
+
+
+    @CrossOrigin
     @RequestMapping(value = "/message/user/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String getMessageByUser(@PathVariable("id") String id){
@@ -70,6 +60,7 @@ public class MainController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/message/menu/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String getMessageByMenu(@PathVariable("id") String id){
@@ -83,6 +74,7 @@ public class MainController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/dish/menu/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String getDishOfMenu(@PathVariable("id") String id){
@@ -96,6 +88,7 @@ public class MainController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/menu/user/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String getMenuByUser(@PathVariable("id") String id){
@@ -108,6 +101,7 @@ public class MainController {
         }
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/ingredient/dish/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String getIngredientByDish(@PathVariable("id") String id){
@@ -122,6 +116,7 @@ public class MainController {
     }
 
 
+    @CrossOrigin
     @RequestMapping(value = "/upload/{id}", method = RequestMethod.POST)
     @ResponseBody
     public String uploadImage(@PathVariable("id") String id,
@@ -163,6 +158,7 @@ public class MainController {
         return Utils.RESP_SUCCESS;
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/add/menu", method = RequestMethod.POST)
     @ResponseBody
     public String addMenu(@RequestBody Map<String, Object> map){
@@ -172,4 +168,19 @@ public class MainController {
         return Utils.RESP_SUCCESS;
     }
 
+
+    @CrossOrigin
+    @RequestMapping(value = "/add/message", method = RequestMethod.POST)
+    @ResponseBody
+    public String addMessage(@RequestBody Map<String, Object> map){
+        String message = (String) map.get("message");
+        String user = (String) map.get("user");
+        Integer menu = (Integer) map.get("menu");
+        if(message != null && user != null && menu != null) {
+            messageService.addCommentMessage(user, menu, message);
+            return Utils.RESP_SUCCESS;
+        } else {
+            return Utils.RESP_FAILURE;
+        }
+    }
 }
