@@ -40,21 +40,7 @@ public class DishService {
         dish.setLocation(location);
         dish.setWeight(weight);
         dish.setType(type);
-        for(Map<String, Object> iid : iids){
-            Integer _iid = (Integer) iid.get("id");
-            Double _per = (Double) iid.get("percentage");
-            Ingredient i = ingredientDAO.queryById(_iid);
-            if(i == null){
-                return;
-            }else{
-                DI di = new DI();
-                di.setDish(dish);
-                di.setIngredient(i);
-                di.setPercentage(_per);
-                dish.addDi(di);
-            }
-        }
-        dishDAO.insert(dish);
+        dishDAO.createDish(dish, iids);
     }
 
     public void delDish(int did){

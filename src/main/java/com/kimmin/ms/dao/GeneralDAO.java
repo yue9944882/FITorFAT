@@ -1,5 +1,6 @@
 package com.kimmin.ms.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 public interface GeneralDAO<T> {
@@ -11,4 +12,5 @@ public interface GeneralDAO<T> {
     void update(T t);
     void deleteById(String id);
     void deleteById(int id);
+    Serializable insertAuto(T t);
 }

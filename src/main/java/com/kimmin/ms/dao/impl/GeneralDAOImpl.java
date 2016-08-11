@@ -5,6 +5,7 @@ import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -25,6 +26,10 @@ public abstract class GeneralDAOImpl<T> implements GeneralDAO<T> {
 
     public void insert(T t){
         sessionFactory.getCurrentSession().save(t);
+    }
+
+    public Serializable insertAuto(T t){
+        return sessionFactory.getCurrentSession().save(t);
     }
 
     public void delete(T t){
