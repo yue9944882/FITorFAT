@@ -5,6 +5,7 @@ import com.kimmin.ms.dao.GeneralDAO;
 import com.kimmin.ms.entity.DI;
 import com.kimmin.ms.entity.Dish;
 import com.kimmin.ms.entity.Ingredient;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
@@ -25,19 +26,34 @@ public class DishDAOImpl extends GeneralDAOImpl<Dish> implements DishDAO {
     }
 
     public List<Dish> getHighDishes(){
-        return null;
+        String hql = "from Dish where type = :type";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("type", 0);
+        query.setMaxResults(6);
+        return query.list();
     }
 
     public List<Dish> getMediumDishes(){
-        return null;
+        String hql = "from Dish where type = :type";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("type", 1);
+        query.setMaxResults(6);
+        return query.list();
     }
 
     public List<Dish> getLowDishes(){
-        return null;
+        String hql = "from Dish where type = :type";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("type", 2);
+        query.setMaxResults(6);
+        return query.list();
     }
 
     public List<Dish> getLatestDishes(){
-        return null;
+        String hql = "from Dish order by createTime";
+        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        query.setMaxResults(6);
+        return query.list();
     }
 
     public void createDish(Dish dish, List<Map<String, Object>> iids){

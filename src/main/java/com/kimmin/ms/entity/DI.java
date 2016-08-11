@@ -1,5 +1,6 @@
 package com.kimmin.ms.entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 public class DI implements Serializable {
 
     private int id;
+    @JsonIgnore
     private Dish dish;
     private Ingredient ingredient;
     private double percentage;
