@@ -15,7 +15,6 @@ import java.util.Set;
 
 @Entity
 @Table
-@Embeddable
 public class Dish implements Serializable {
 
     private int id;

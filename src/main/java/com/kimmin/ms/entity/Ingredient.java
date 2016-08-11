@@ -15,7 +15,6 @@ import java.util.Set;
 
 @Entity
 @Table
-@Embeddable
 public class Ingredient implements Serializable {
 
     private int id;

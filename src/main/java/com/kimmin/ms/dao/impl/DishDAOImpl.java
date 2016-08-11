@@ -56,11 +56,11 @@ public class DishDAOImpl extends GeneralDAOImpl<Dish> implements DishDAO {
             di.setDish(d);
             d.addDi(di);
             i.addDi(di);
-            session.saveOrUpdate(i);
+//            session.saveOrUpdate(i);
             session.saveOrUpdate(di);
 //            session.saveOrUpdate(d);
         }
-        session.saveOrUpdate(d);
+//        session.saveOrUpdate(d);
         tx.commit();
         session.flush();
     }

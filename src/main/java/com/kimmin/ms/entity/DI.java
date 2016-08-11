@@ -13,11 +13,21 @@ import java.io.Serializable;
 @Entity
 public class DI implements Serializable {
 
+    private int id;
     private Dish dish;
     private Ingredient ingredient;
     private double percentage;
 
-    @EmbeddedId
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "did", nullable = false)
     public Dish getDish() {
@@ -28,8 +38,7 @@ public class DI implements Serializable {
         this.dish = dish;
     }
 
-    @EmbeddedId
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "iid", nullable = false)
     public Ingredient getIngredient() {
         return ingredient;
