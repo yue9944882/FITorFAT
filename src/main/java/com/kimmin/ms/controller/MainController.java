@@ -153,7 +153,7 @@ public class MainController {
         int location = (Integer) map.get("location");
         int energy = (Integer) map.get("energy");
         int type = (Integer) map.get("type");
-        List<Integer> iids = (List<Integer>) map.get("iids");
+        List<Map<String, Object>> iids = (List<Map<String, Object>>) map.get("iids");
         dishService.addDish(name, location, weight, energy, type, iids);
         return Utils.RESP_SUCCESS;
     }

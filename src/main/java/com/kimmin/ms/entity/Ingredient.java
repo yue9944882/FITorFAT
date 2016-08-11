@@ -5,6 +5,7 @@ package com.kimmin.ms.entity;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,13 +15,16 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Ingredient {
+@Embeddable
+public class Ingredient implements Serializable {
 
     private int id;
     private String name;
     private double caloric;
+    //@JsonIgnore
+    //private Set<Dish> dishes = new HashSet<Dish>();
     @JsonIgnore
-    private Set<Dish> dishes = new HashSet<Dish>();
+    private Set<DI> dis = new HashSet<DI>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,21 +56,38 @@ public class Ingredient {
         this.caloric = caloric;
     }
 
-    @ManyToMany(mappedBy = "ingredients", fetch = FetchType.EAGER)
-    public Set<Dish> getDishes() {
-        return dishes;
+//    @ManyToMany(mappedBy = "ingredients", fetch = FetchType.EAGER)
+//    public Set<Dish> getDishes() {
+//        return dishes;
+//    }
+//
+//    public void setDishes(Set<Dish> dishes) {
+//        this.dishes = dishes;
+//    }
+//
+//    public void addDish(Dish dish){
+//        this.dishes.add(dish);
+//    }
+//
+//    public void removeDish(Dish dish){
+//        this.dishes.remove(dish);
+//    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ingredient", fetch = FetchType.EAGER)
+    public Set<DI> getDis() {
+        return dis;
     }
 
-    public void setDishes(Set<Dish> dishes) {
-        this.dishes = dishes;
+    public void setDis(Set<DI> dis) {
+        this.dis = dis;
     }
 
-    public void addDish(Dish dish){
-        this.dishes.add(dish);
+    public void addDi(DI di){
+        this.dis.add(di);
     }
 
-    public void removeDish(Dish dish){
-        this.dishes.remove(dish);
+    public void removeDi(DI di){
+        this.dis.remove(di);
     }
 
     @Override

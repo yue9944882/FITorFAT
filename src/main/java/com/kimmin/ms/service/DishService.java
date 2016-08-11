@@ -1,16 +1,16 @@
 package com.kimmin.ms.service;
 
+import com.kimmin.ms.dao.DIDAO;
 import com.kimmin.ms.dao.DishDAO;
 import com.kimmin.ms.dao.IngredientDAO;
+import com.kimmin.ms.entity.DI;
 import com.kimmin.ms.entity.Dish;
 import com.kimmin.ms.entity.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by t-mijin on 8/7/2016.
@@ -27,7 +27,10 @@ public class DishService {
     @Autowired
     private IngredientDAO ingredientDAO;
 
-    public void addDish(String name, int location, int weight, int energy, int type, List<Integer> iids){
+    @Autowired
+    private DIDAO dIDAO;
+
+    public void addDish(String name, int location, int weight, int energy, int type, List<Map<String, Object>> iids){
         Dish dish = new Dish();
         dish.setDolike(0);
         dish.setDislike(0);
@@ -37,12 +40,18 @@ public class DishService {
         dish.setLocation(location);
         dish.setWeight(weight);
         dish.setType(type);
-        for(Integer iid : iids){
-            Ingredient i = ingredientDAO.queryById(iid);
+        for(Map<String, Object> iid : iids){
+            Integer _iid = (Integer) iid.get("id");
+            Double _per = (Double) iid.get("percentage");
+            Ingredient i = ingredientDAO.queryById(_iid);
             if(i == null){
                 return;
             }else{
-                dish.addIngredient(i);
+                DI di = new DI();
+                di.setDish(dish);
+                di.setIngredient(i);
+                di.setPercentage(_per);
+                dish.addDi(di);
             }
         }
         dishDAO.insert(dish);
@@ -54,7 +63,12 @@ public class DishService {
 
     public Set<Ingredient> getIngredientByDish(int did){
         Dish dish = dishDAO.queryById(did);
-        return dish.getIngredients();
+        Set<DI> dis = dish.getDis();
+        Set<Ingredient> is = new HashSet<Ingredient>();
+        for(DI di: dis){
+            is.add(di.getIngredient());
+        }
+        return is;
     }
 
     public void addIngredient(Ingredient ingredient){

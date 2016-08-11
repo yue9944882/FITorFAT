@@ -4,6 +4,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +15,8 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Dish {
+@Embeddable
+public class Dish implements Serializable {
 
     private int id;
     private String name;
@@ -27,7 +29,8 @@ public class Dish {
     private int type;
     @JsonIgnore
     private Set<Menu> menus = new HashSet<Menu>();
-    private Set<Ingredient> ingredients = new HashSet<Ingredient>();
+    //private Set<Ingredient> ingredients = new HashSet<Ingredient>();
+    private Set<DI> dis = new HashSet<DI>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -128,25 +131,42 @@ public class Dish {
         this.menus = menus;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(name = "DI",
-            joinColumns = {@JoinColumn(name = "did", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "iid", referencedColumnName = "id")}
-    )
-    public Set<Ingredient> getIngredients() {
-        return ingredients;
+//    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+//    @JoinTable(name = "DI",
+//            joinColumns = {@JoinColumn(name = "did", referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "iid", referencedColumnName = "id")}
+//    )
+//    public Set<Ingredient> getIngredients() {
+//        return ingredients;
+//    }
+//
+//    public void setIngredients(Set<Ingredient> ingredients) {
+//        this.ingredients = ingredients;
+//    }
+//
+//    public void addIngredient(Ingredient ingredient){
+//        this.ingredients.add(ingredient);
+//    }
+//
+//    public void removeIngredient(Ingredient ingredient){
+//        this.ingredients.remove(ingredient);
+//    }
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dish", fetch = FetchType.EAGER)
+    public Set<DI> getDis() {
+        return dis;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setDis(Set<DI> dis) {
+        this.dis = dis;
     }
 
-    public void addIngredient(Ingredient ingredient){
-        this.ingredients.add(ingredient);
+    public void addDi(DI di){
+        dis.add(di);
     }
 
-    public void removeIngredient(Ingredient ingredient){
-        this.ingredients.remove(ingredient);
+    public void removeDi(DI di){
+        dis.remove(di);
     }
 
     @Override
